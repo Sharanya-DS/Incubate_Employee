@@ -1,5 +1,8 @@
 package com.employee.request;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
 /**
  * 
  * This is the Request POJO for the Organization entity which aids with any add
@@ -12,8 +15,14 @@ package com.employee.request;
  */
 public class AddOrganizationReq {
 
+	@NotNull
 	private int orgId;
+	
+	@NotNull
+	@NotEmpty
 	private String orgName;
+	
+	@NotNull (message = "Organization needs to have an Incuabte Id to associate. ")
 	private int incubateId;
 
 	public int getOrgId() {

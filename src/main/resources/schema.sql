@@ -41,4 +41,4 @@ CREATE TABLE address (
 );
 
 insert into address values (1, '4 sample street', 'India', 500010, 1234);
-insert into address values (1, '234 benjarong street', 'Thailand', 789653, 1234);
+insert into address values (2, '234 benjarong street', 'Thailand', 789653, 1234);

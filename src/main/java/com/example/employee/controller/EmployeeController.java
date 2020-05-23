@@ -3,8 +3,9 @@
  */
 package com.example.employee.controller;
 
-import java.math.BigDecimal;
 import java.util.List;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.employee.request.AddAddressReq;
 import com.employee.request.AddEmployeeReq;
 import com.employee.request.AddOrganizationReq;
+import com.employee.request.GetEmployeeReq;
 import com.example.employee.model.Addresses;
 import com.example.employee.model.Employee;
 import com.example.employee.model.Organization;
@@ -109,7 +111,7 @@ public class EmployeeController {
 	 */
 	@PostMapping("/add")
 	private String addEmployee(@RequestHeader(name = "ORGID", required = true) int orgId,
-			@RequestBody AddEmployeeReq addEmployeeReq) {
+			@RequestBody @Valid AddEmployeeReq addEmployeeReq) {
 
 		boolean orgExists = orgService.checkIfOrgExists(orgId);
 
@@ -193,7 +195,8 @@ public class EmployeeController {
 	 * and whose salary is above a certain number. This invokes
 	 * {@link EmployeeServiceImpl empService} which calls the EmployeeRepository to
 	 * get the employee details from the database using the name and salary as the
-	 * search criteria.
+	 * search criteria. Here @PostMapping is used to fetch details because the
+	 * search criteria comes in the form of request body.
 	 * 
 	 * @param name   name of the employee whose corresponding details need to be
 	 *               fetched.
@@ -205,12 +208,11 @@ public class EmployeeController {
 	 * 
 	 */
 
-	// 2 ip var from body - to fetch all from emp whose salary >1000 and empNAme
-	// starts with A - using jpaquery
-	// request body not working. so used query param to input the search criteria.
-	@GetMapping("/employee")
-	public List<Employee> getEmployeeBySalaryAndName(@RequestParam("name") String name,
-			@RequestParam("salary") double salary) {
+	@PostMapping("/employee")
+	public List<Employee> getEmployeeBySalaryAndName(@RequestBody GetEmployeeReq getEmployeeReq) {
+
+		double salary = getEmployeeReq.getEmployeeSalary();
+		String name = getEmployeeReq.getEmployeeName();
 
 		return empService.getEmployeeBySalaryAndName(salary, name);
 	}

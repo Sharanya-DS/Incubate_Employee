@@ -11,6 +11,7 @@ import com.example.employee.model.Employee;
 import com.example.employee.model.Incubatesoft;
 import com.example.employee.model.Organization;
 import com.example.employee.repository.EmployeeRepository;
+import com.example.employee.repository.IncubateRepository;
 import com.example.employee.repository.OrganizationRepository;
 
 /**
@@ -32,6 +33,9 @@ public class OrganizationServiceImpl implements OrganizationService {
 
 	@Autowired
 	EmployeeRepository employeeRepository;
+	
+	@Autowired
+	IncubateRepository incubateRepository;
 
 	/**
 	 * Overridden method to add a new organization. This invokes
@@ -45,13 +49,12 @@ public class OrganizationServiceImpl implements OrganizationService {
 	 */
 	@Override
 	public void addOrganization(AddOrganizationReq org) {
-		Incubatesoft incubate = new Incubatesoft();
-		incubate.setIncubateId(org.getIncubateId());
+		Incubatesoft incubatesoft = incubateRepository.findByIncubateId(org.getIncubateId());
 
 		Organization organization = new Organization();
 		organization.setOrgId(org.getOrgId());
 		organization.setOrgName(org.getOrgName());
-		organization.setIncubatesoft(incubate);
+		organization.setIncubatesoft(incubatesoft);
 
 		organizationRepository.save(organization);
 	}

@@ -1,5 +1,8 @@
 package com.employee.request;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
 /**
  * 
  * This is the Request POJO for the Address entity which aids with any add
@@ -10,9 +13,16 @@ package com.employee.request;
  */
 public class AddAddressReq {
 
+	@NotNull
 	private int addressId;
+
 	private String addressString;
+
+	@Country
 	private String country;
+
+	@NotNull
+	@NotEmpty
 	private String pincode;
 
 	public int getAddressId() {
